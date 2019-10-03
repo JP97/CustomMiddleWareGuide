@@ -20,7 +20,11 @@ namespace CustomMiddleWareGuide
 
         public static IApplicationBuilder UseHelloWorld(this IApplicationBuilder app)
         {
-            return app.UseMiddleware<HelloWorldMiddleware>();
+            return app.Use(async (context, next) =>
+            {
+                await context.Response.WriteAsync("Hello World! (Use)\n");
+                await next();
+            });
         }
 
         public static IApplicationBuilder UseHelloWorldInClass(this IApplicationBuilder app)
